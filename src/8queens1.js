@@ -20,6 +20,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 function constructor(size) {
+    tablero.size = size;
     for (let i = 0; i < size; i++) {
         tablero.fila[i] = []
         for (let j = 0; j < size; j++) {
@@ -28,7 +29,6 @@ function constructor(size) {
 
         tablero.reinasEnFila[i] = false;
         tablero.reinasEnColumna[i] = false;
-        tablero.reinasAlmacenadas[i] = false;
     }
 }
 
@@ -97,23 +97,54 @@ function comprobarDiagonalNormal(fila, columna) {
     return true;
 }
 
-function insertarReina(columna) {
-    let fila = 0;
-    let columna = comprobarColumna(columna);
-    let diagonalNormal = comprobarDiagonalNormal(fila, columna);
+function insertarReina(fila, columna) {
+    console.log("Fila: " + fila + " - Columna: " + columna);
+    if (fila < tablero.size && columna < tablero.size) {
+        if (tablero.reinasAlmacenadas < tablero.size) {
+            if (comprobarFila(fila)) {
+                if (comprobarColumna(columna)) {
+                    if (comprobarDiagonalNormal(fila, columna)) {
+                        let nuevaReina = reina;
+                        nuevaReina.fila = fila;
+                        nuevaReina.columna = columna;
+                    
+                        tablero.fila[fila][columna] = "&";
+                        tablero.reinasEnFila[fila] = true;
+                        tablero.reinasEnColumna[columna] = true;
+                        tablero.reinasAlmacenadas++;
 
-    if (comprobarFila(fila) && columna && diagonalNormal) {
-        let nuevaReina = reina;
-        nuevaReina.fila = fila;
-        nuevaReina.columna = columna;
-
-        tablero.fila[fila][columna] = "&";
-        tablero.reinasEnFila[fila] = true;
-        tablero.reinasEnColumna[columna] = true;
-        tablero.reinasAlmacenadas[fila] = nuevaReina;
-    }
-    else {
-        insertarReina(columna++);
+                        insertarReina(fila + 1, 0);
+                    }
+                    else {
+                        console.log("Diagonal no valida");
+                        if (columna <= tablero.size) {
+                            insertarReina(fila, columna + 1);
+                        }
+                        else {
+                            insertarReina(fila + 1, 0);
+                        }
+                    }
+                }
+                else {
+                    console.log("Columna no valida");
+                    if (columna <= tablero.size) {
+                        insertarReina(fila, columna + 1);
+                    }
+                    else {
+                        insertarReina(fila + 1, 0);
+                    }
+                }
+            }
+            else {
+                console.log("Fila no valida");
+                if (fila <= tablero.size) {
+                    insertarReina(fila + 1, columna);
+                }
+                else {
+                    insertarReina(0, columna + 1);
+                }
+            }
+        }
     }
 }
 
@@ -134,10 +165,11 @@ function comprobarColumna(columna) {
 }
 
 let tablero = new Object();
+tablero.size;
 tablero.fila = [];
 tablero.reinasEnFila = [];
 tablero.reinasEnColumna = [];
-tablero.reinasAlmacenadas = [];
+tablero.reinasAlmacenadas = 0;
 
 let reina = new Object();
 reina.fila;
@@ -145,20 +177,7 @@ reina.columna;
 
 constructor(8);
 imprimirTablero();
-insertarReina();
+insertarReina(0, 0);
 imprimirTablero();
-insertarReina();
-imprimirTablero();
-
-// function comprobarCasilla() {
-//     let fila = 0;
-//     while(tablero.reinasEnFila[fila] === 1) {
-//         fila++;
-//     }
-//     let columna = 0;
-//     while(tablero.reinasEnFila[columna] === 1) {
-//         columna++;
-//     }
-
-
-// }
+// insertarReina(0, 0);
+//imprimirTablero();
