@@ -11,13 +11,12 @@
  * Fecha: 8/03/2020
  *
  * Programa que muestra por pantalla las diferentes combinaciones en que se pueden
- * colocar 8 reinas en un tablero de ajedrez sin que se amenacen
+ * colocar 8 reinas en un tablero de ajedrez sin que se amenacen ademas comprobando
+ * si no pertenecen a la recta formada por dos reinas ya introducidas
  *
  * ---------------------------------------------------------------------------------------------------------------------*/
 
 "use strict"
-
-const readLine = require('readline-sync');
 
 /**
  * @param  {} size, tamaño del tablero
@@ -29,7 +28,7 @@ function constructor(size) {
   for (let i = 0; i < size; i++) {
     tablero.fila[i] = []
     for (let j = 0; j < size; j++) {
-        tablero.fila[i][j] = ".";
+      tablero.fila[i][j] = ".";
     }
 
     tablero.reinasEnFila[i] = false;
@@ -45,7 +44,7 @@ function imprimirTablero() {
     let cadena = "";
 
     for (let j = 0; j < tablero.fila[i].length; j++) {
-        cadena += " " + tablero.fila[i][j];
+      cadena += " " + tablero.fila[i][j];
     }
     console.log(cadena);
   }
@@ -60,13 +59,12 @@ function imprimirTablero() {
  */
 function insertarReina(columna) {
   if (tablero.reinasAlmacenadas.length === tablero.size) {
-    readLine.question("Pulse ENTER: ");
     imprimirTablero();
     contador++;
   }
   else {
     for (let fila = 0; fila < tablero.fila.length; fila++) {
-      if (comprobarFila(fila) && comprobarColumna(columna) && comprobarDiagonalNormal(fila, columna)) {
+      if (comprobarFila(fila) && comprobarColumna(columna) && comprobarDiagonalNormal(fila, columna) && comprobarLinea(fila, columna)) {
         crearReina(fila, columna);
         insertarReina(columna + 1);
         eliminarReina();
@@ -74,6 +72,7 @@ function insertarReina(columna) {
     }
   }
 }
+
 /**
  * @param  {} fila, coordenada en el eje X en la que se va a insertar la reina
  * @param  {} columna, coordenada en el eje Y en la que se va a insertar la reina
@@ -106,8 +105,61 @@ function eliminarReina() {
   tablero.reinasEnFila[ejeX] = false;
   tablero.reinasEnColumna[ejeY] = false;
   tablero.fila[ejeX][ejeY] = ".";
-
   tablero.reinasAlmacenadas.pop();
+    
+}
+
+/**
+ * @param  {} fila, coordenada en el eje X, de la reina que queremos introducir en la posicion dada
+ * @param  {} columna, coordenada en el eje Y, de la reina que queremos introducir en la posicion dada
+ * @description, Funcion utilizada para generar todas las combinaciones posibles de rectas que se pueden
+ * generar con las reinas ya introducidas en el tablero
+ */
+function comprobarLinea(fila, columna) {
+  if (tablero.reinasAlmacenadas.length < 2) {
+    return true;
+  }
+  else {
+    for (let reinaPrimera = 0; reinaPrimera < tablero.reinasAlmacenadas.length; reinaPrimera++) {
+      for (let reinaSegunda = reinaPrimera + 1; reinaSegunda < tablero.reinasAlmacenadas.length; reinaSegunda++) {
+        if (isPointInLine(fila, columna, lineFromTo(tablero.reinasAlmacenadas[reinaPrimera],
+          tablero.reinasAlmacenadas[reinaSegunda]))) {
+            return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+/**
+ * @param  {} fila, coordena en el eje X, perteneciente a la reina que queremos colocar
+ * @param  {} columna, coordena en el eje Y, perteneciente a la reina que queremos colocar
+ * @param  {} linea, line formada por dos reinas dadas que utilizaremos para comprobar
+ * @description, Funcion usada para comprobar si un punto dado pertenece a la recta
+ * formada por dos reinas
+ */
+function isPointInLine(fila, columna, linea) {
+  return (((linea.pendiente * fila) + linea.desplazamiento) - columna) === 0;
+}
+
+/**
+ * @param  {} reinaPrimera, parametro uno, usado como primer punto que utilizaremos para
+ * trazar la recta entre los dos puntos
+ * @param  {} reinaSegunda, parametro dos, usado como segundo punto que utilizaremos para
+ * trazar la recta entre los dos puntos
+ * @description, Funcion utilizada para obtener los parametros que se utilizan para comprobar
+ * si un punto dado pertenece a la recta que forman dos reinas. Para obtener le recta usamos 
+ * las formula -> y = mx + n
+ *  · m = (y2 - y1) / (x2 - x1)
+ *  · n = 
+ */
+function lineFromTo(reinaPrimera, reinaSegunda) {
+  let pendiente_ = ((reinaSegunda.columna - reinaPrimera.columna) / (reinaSegunda.fila - reinaPrimera.fila));
+  let desplazamiento_ = reinaPrimera.columna + (pendiente_ * (-reinaPrimera.fila));
+
+  return {pendiente: pendiente_, desplazamiento: desplazamiento_};
 }
 
 /**
@@ -165,8 +217,7 @@ function comprobarDiagonalNormal(fila, columna) {
     ejeY++;
   }
 
-  // Recorremos la diagonal del segundo cuadrante respecto a la posicion (ejeX negativo y
-  // ejeY positivo, 2º cuadrante)
+  // Recorremos la diagonal del segundo cuadrante respecto a la posicion (ejeX negativo y ejeY positivo, 2º cuadrante)
   ejeX = fila;
   ejeY = columna;
   while (ejeX >= 0 && ejeY >= 0) {
@@ -178,8 +229,7 @@ function comprobarDiagonalNormal(fila, columna) {
     ejeY--;
   }
 
-  // Recorremos la diagonal del tercer cuadrante respecto a la posicion (ejeX negativo y
-  // ejeY negativo, 3º cuadrante)
+  // Recorremos la diagonal del tercer cuadrante respecto a la posicion (ejeX negativo y ejeY negativo, 3º cuadrante)
   ejeX = fila;
   ejeY = columna;
   while (ejeX < tablero.fila.length && ejeY >= 0) {
@@ -191,8 +241,7 @@ function comprobarDiagonalNormal(fila, columna) {
     ejeY--;
   }
 
-  // Recorremos la diagonal del cuarto cuadrante respecto a la posicion (ejeX positivo y
-  // ejeY positivo, 4º cuadrante)
+  // Recorremos la diagonal del cuarto cuadrante respecto a la posicion (ejeX positivo y ejeY positivo, 4º cuadrante)
   ejeX = fila;
   ejeY = columna;
   while (ejeX < tablero.fila.length && ejeY < tablero.fila.length) {
@@ -215,8 +264,16 @@ tablero.reinasEnColumna = [];
 tablero.reinasAlmacenadas = [];
 
 let contador = 0;
+let args = process.argv.slice(2);
 
-constructor(8);
-imprimirTablero();
-insertarReina(0);
-console.log("Numero de iteraciones: " + contador);
+if (args == 0)
+{
+  console.log("Debe introducir el numero de reinas con el que se va a trabajar");
+  process.exit();
+}
+else {
+  constructor(parseInt(args[0]));
+  imprimirTablero();
+  insertarReina(0);
+  console.log("Numero de iteraciones: " + contador);
+}

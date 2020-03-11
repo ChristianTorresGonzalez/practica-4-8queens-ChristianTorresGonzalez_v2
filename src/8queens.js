@@ -16,6 +16,8 @@
  *
  * ---------------------------------------------------------------------------------------------------------------------*/
 
+"use strict"
+
 /**
  * @param  {} size, tamaño del tablero
  * @description funcion utilizada para inicializar la matriz del tablero junto a sus
@@ -58,6 +60,7 @@ function imprimirTablero() {
 function insertarReina(columna) {
   if (tablero.reinasAlmacenadas.length === tablero.size) {
     imprimirTablero();
+    contador++;
   }
   else {
     for (let fila = 0; fila < tablero.fila.length; fila++) {
@@ -147,11 +150,14 @@ function isPointInLine(fila, columna, linea) {
  * @param  {} reinaSegunda, parametro dos, usado como segundo punto que utilizaremos para
  * trazar la recta entre los dos puntos
  * @description, Funcion utilizada para obtener los parametros que se utilizan para comprobar
- * si un punto dado pertenece a la recta que forman dos reinas
+ * si un punto dado pertenece a la recta que forman dos reinas. Para obtener le recta usamos 
+ * las formula -> y = mx + n
+ *  · m = (y2 - y1) / (x2 - x1)
+ *  · n = 
  */
 function lineFromTo(reinaPrimera, reinaSegunda) {
   let pendiente_ = ((reinaSegunda.columna - reinaPrimera.columna) / (reinaSegunda.fila - reinaPrimera.fila));
-  let desplazamiento_ = reinaPrimera.columna + pendiente_ * reinaPrimera.fila;
+  let desplazamiento_ = reinaPrimera.columna + (pendiente_ * (-reinaPrimera.fila));
 
   return {pendiente: pendiente_, desplazamiento: desplazamiento_};
 }
@@ -199,10 +205,11 @@ function comprobarColumna(columna) {
 function comprobarDiagonalNormal(fila, columna) {
   let ejeX = fila;
   let ejeY = columna;
+  const REINA = "&";
 
   // Recorremos la diagonal del primer cuadrante respecto a la posicion (todo positivo, 1º cuadrante)
   while (ejeX >= 0 && ejeY < tablero.fila.length) {
-    if (tablero.fila[ejeX][ejeY] === '&') {
+    if (tablero.fila[ejeX][ejeY] === REINA) {
       return false;
     }
 
@@ -214,7 +221,7 @@ function comprobarDiagonalNormal(fila, columna) {
   ejeX = fila;
   ejeY = columna;
   while (ejeX >= 0 && ejeY >= 0) {
-    if (tablero.fila[ejeX][ejeY] === '&') {
+    if (tablero.fila[ejeX][ejeY] === REINA) {
       return false;
     }
 
@@ -226,7 +233,7 @@ function comprobarDiagonalNormal(fila, columna) {
   ejeX = fila;
   ejeY = columna;
   while (ejeX < tablero.fila.length && ejeY >= 0) {
-    if (tablero.fila[ejeX][ejeY] === '&') {
+    if (tablero.fila[ejeX][ejeY] === REINA) {
       return false;
     }
 
@@ -238,7 +245,7 @@ function comprobarDiagonalNormal(fila, columna) {
   ejeX = fila;
   ejeY = columna;
   while (ejeX < tablero.fila.length && ejeY < tablero.fila.length) {
-    if (tablero.fila[ejeX][ejeY] === '&') {
+    if (tablero.fila[ejeX][ejeY] === REINA) {
       return false;
     }
 
@@ -256,6 +263,9 @@ tablero.reinasEnFila = [];
 tablero.reinasEnColumna = [];
 tablero.reinasAlmacenadas = [];
 
+let contador = 0;
+
 constructor(8);
 imprimirTablero();
 insertarReina(0);
+console.log("Numero de iteraciones: " + contador);

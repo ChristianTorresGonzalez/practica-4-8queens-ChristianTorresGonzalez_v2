@@ -1,0 +1,287 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/** ---------------------------------------------------------------------------------------------------------------------
+<span class='line'>  2</span>  *
+<span class='line'>  3</span>  * Universidad de La Laguna
+<span class='line'>  4</span>  * Escuela Superior de Ingeniería y Tecnología
+<span class='line'>  5</span>  * Grado en Ingeniería Informática
+<span class='line'>  6</span>  * Asignatura: Programacion de Aplicaciones Interactivas (PAI)
+<span class='line'>  7</span>  * Curso: 3º Itinerario 1
+<span class='line'>  8</span>  * Práctica 4 PAI - Problema de las 8 Reinas
+<span class='line'>  9</span>  * Autor: Christian Torres Gonzalez
+<span class='line'> 10</span>  * Correo: alu0101137902@ull.edu.es
+<span class='line'> 11</span>  * Fecha: 8/03/2020
+<span class='line'> 12</span>  *
+<span class='line'> 13</span>  * Programa que muestra por pantalla las diferentes combinaciones en que se pueden
+<span class='line'> 14</span>  * colocar 8 reinas en un tablero de ajedrez sin que se amenacen ademas comprobando
+<span class='line'> 15</span>  * si no pertenecen a la recta formada por dos reinas ya introducidas
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * ---------------------------------------------------------------------------------------------------------------------*/</span><span class="WHIT">
+<span class='line'> 18</span> 
+<span class='line'> 19</span> </span><span class="STRN">"use strict"</span><span class="WHIT">
+<span class='line'> 20</span> 
+<span class='line'> 21</span> </span><span class="COMM">/**
+<span class='line'> 22</span>  * @param  {} size, tamaño del tablero
+<span class='line'> 23</span>  * @description funcion utilizada para inicializar la matriz del tablero junto a sus
+<span class='line'> 24</span>  * correspondientes atributos
+<span class='line'> 25</span>  */</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">constructor</span><span class="PUNC">(</span><span class="NAME">size</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">  </span><span class="NAME">tablero.size</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">  </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="NAME">tablero.fila</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">      </span><span class="NAME">tablero.fila</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">j</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"."</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 33</span> 
+<span class='line'> 34</span> </span><span class="WHIT">    </span><span class="NAME">tablero.reinasEnFila</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">    </span><span class="NAME">tablero.reinasEnColumna</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span> </span><span class="COMM">/**
+<span class='line'> 40</span>  * @description Funcion utilizada para imprimi el tablero junto a las reinas que ha sido colocadas
+<span class='line'> 41</span>  */</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">imprimirTablero</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">  </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">tablero.size</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">    </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">cadena</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">tablero.fila</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">      </span><span class="NAME">cadena</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">tablero.fila</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">j</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">    </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="NAME">cadena</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">  </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="COMM">/**
+<span class='line'> 55</span>  * @param  {} columna, columna en la que queremos insertar la nueva reina.
+<span class='line'> 56</span>  * @description, En esta funcion se ejecuta de manera recursiva, la llamada a insertarReina(),
+<span class='line'> 57</span>  * donde se van insertando las reinas en aquellas posiciones validas. Empleando recursividad 
+<span class='line'> 58</span>  * para generar todas las combinaciones posibles
+<span class='line'> 59</span>  */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">insertarReina</span><span class="PUNC">(</span><span class="NAME">columna</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tablero.reinasAlmacenadas.length</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">tablero.size</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">    </span><span class="NAME">imprimirTablero</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">    </span><span class="NAME">contador</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">  </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">fila</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">fila</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">tablero.fila.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">fila</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">comprobarFila</span><span class="PUNC">(</span><span class="NAME">fila</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">comprobarColumna</span><span class="PUNC">(</span><span class="NAME">columna</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">comprobarDiagonalNormal</span><span class="PUNC">(</span><span class="NAME">fila</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">comprobarLinea</span><span class="PUNC">(</span><span class="NAME">fila</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">        </span><span class="NAME">crearReina</span><span class="PUNC">(</span><span class="NAME">fila</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">        </span><span class="NAME">insertarReina</span><span class="PUNC">(</span><span class="NAME">columna</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">        </span><span class="NAME">eliminarReina</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="COMM">/**
+<span class='line'> 77</span>  * @param  {} fila, coordenada en el eje X en la que se va a insertar la reina
+<span class='line'> 78</span>  * @param  {} columna, coordenada en el eje Y en la que se va a insertar la reina
+<span class='line'> 79</span>  * @description, En esta funcion, su principal finalidad, es la de crear un nuevo
+<span class='line'> 80</span>  * objeto de tipo reina que insertaremos en las coordenadas que se le pasa como
+<span class='line'> 81</span>  * argumentos, ya que han sido comprobadas previamente y son validas
+<span class='line'> 82</span>  */</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">crearReina</span><span class="PUNC">(</span><span class="NAME">fila</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">  </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">nuevaReina</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">fila</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fila</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">  </span><span class="NAME">nuevaReina.fila</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fila</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">  </span><span class="NAME">nuevaReina.columna</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> </span><span class="WHIT">  </span><span class="NAME">tablero.fila</span><span class="PUNC">[</span><span class="NAME">fila</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">columna</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">  </span><span class="NAME">tablero.reinasEnFila</span><span class="PUNC">[</span><span class="NAME">fila</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">  </span><span class="NAME">tablero.reinasEnColumna</span><span class="PUNC">[</span><span class="NAME">columna</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">  </span><span class="NAME">tablero.reinasAlmacenadas.push</span><span class="PUNC">(</span><span class="NAME">nuevaReina</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 93</span> 
+<span class='line'> 94</span> </span><span class="COMM">/**
+<span class='line'> 95</span>  * @description, Necesitamos de esta implementacion debido a que cuando vuelva a atras
+<span class='line'> 96</span>  * en la recursividad, el motivo de esa vuelta atras es porque si colocamos esa reina en esa
+<span class='line'> 97</span>  * casilla, implica que ya no podemos colocar mas reinas, por lo que esa reina no va en esa
+<span class='line'> 98</span>  * casilla, por lo que procedemos a eliminarla, para poder colocarla en otra que si nos de
+<span class='line'> 99</span>  * una solucion correcta
+<span class='line'>100</span>  */</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">eliminarReina</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">  </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">ejeX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tablero.reinasAlmacenadas</span><span class="PUNC">[</span><span class="NAME">tablero.reinasAlmacenadas.length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">fila</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">  </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">ejeY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tablero.reinasAlmacenadas</span><span class="PUNC">[</span><span class="NAME">tablero.reinasAlmacenadas.length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">columna</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> </span><span class="WHIT">  </span><span class="NAME">tablero.reinasEnFila</span><span class="PUNC">[</span><span class="NAME">ejeX</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">  </span><span class="NAME">tablero.reinasEnColumna</span><span class="PUNC">[</span><span class="NAME">ejeY</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">  </span><span class="NAME">tablero.fila</span><span class="PUNC">[</span><span class="NAME">ejeX</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">ejeY</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"."</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">  </span><span class="NAME">tablero.reinasAlmacenadas.pop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">    
+<span class='line'>110</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>111</span> 
+<span class='line'>112</span> </span><span class="COMM">/**
+<span class='line'>113</span>  * @param  {} fila, coordenada en el eje X, de la reina que queremos introducir en la posicion dada
+<span class='line'>114</span>  * @param  {} columna, coordenada en el eje Y, de la reina que queremos introducir en la posicion dada
+<span class='line'>115</span>  * @description, Funcion utilizada para generar todas las combinaciones posibles de rectas que se pueden
+<span class='line'>116</span>  * generar con las reinas ya introducidas en el tablero
+<span class='line'>117</span>  */</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">comprobarLinea</span><span class="PUNC">(</span><span class="NAME">fila</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tablero.reinasAlmacenadas.length</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">  </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">reinaPrimera</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">reinaPrimera</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">tablero.reinasAlmacenadas.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">reinaPrimera</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">      </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">reinaSegunda</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">reinaPrimera</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">reinaSegunda</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">tablero.reinasAlmacenadas.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">reinaSegunda</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">isPointInLine</span><span class="PUNC">(</span><span class="NAME">fila</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">lineFromTo</span><span class="PUNC">(</span><span class="NAME">tablero.reinasAlmacenadas</span><span class="PUNC">[</span><span class="NAME">reinaPrimera</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">          </span><span class="NAME">tablero.reinasAlmacenadas</span><span class="PUNC">[</span><span class="NAME">reinaSegunda</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>132</span> 
+<span class='line'>133</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>135</span> 
+<span class='line'>136</span> </span><span class="COMM">/**
+<span class='line'>137</span>  * @param  {} fila, coordena en el eje X, perteneciente a la reina que queremos colocar
+<span class='line'>138</span>  * @param  {} columna, coordena en el eje Y, perteneciente a la reina que queremos colocar
+<span class='line'>139</span>  * @param  {} linea, line formada por dos reinas dadas que utilizaremos para comprobar
+<span class='line'>140</span>  * @description, Funcion usada para comprobar si un punto dado pertenece a la recta
+<span class='line'>141</span>  * formada por dos reinas
+<span class='line'>142</span>  */</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">isPointInLine</span><span class="PUNC">(</span><span class="NAME">fila</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">linea</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">linea.pendiente</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">fila</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">linea.desplazamiento</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>146</span> 
+<span class='line'>147</span> </span><span class="COMM">/**
+<span class='line'>148</span>  * @param  {} reinaPrimera, parametro uno, usado como primer punto que utilizaremos para
+<span class='line'>149</span>  * trazar la recta entre los dos puntos
+<span class='line'>150</span>  * @param  {} reinaSegunda, parametro dos, usado como segundo punto que utilizaremos para
+<span class='line'>151</span>  * trazar la recta entre los dos puntos
+<span class='line'>152</span>  * @description, Funcion utilizada para obtener los parametros que se utilizan para comprobar
+<span class='line'>153</span>  * si un punto dado pertenece a la recta que forman dos reinas. Para obtener le recta usamos 
+<span class='line'>154</span>  * las formula -> y = mx + n
+<span class='line'>155</span>  *  · m = (y2 - y1) / (x2 - x1)
+<span class='line'>156</span>  *  · n = 
+<span class='line'>157</span>  */</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">lineFromTo</span><span class="PUNC">(</span><span class="NAME">reinaPrimera</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">reinaSegunda</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">  </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">pendiente_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">reinaSegunda.columna</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">reinaPrimera.columna</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">reinaSegunda.fila</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">reinaPrimera.fila</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">  </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">desplazamiento_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">reinaPrimera.columna</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pendiente_</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NAME">reinaPrimera.fila</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> 
+<span class='line'>162</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">pendiente</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">pendiente_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">desplazamiento</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">desplazamiento_</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>164</span> 
+<span class='line'>165</span> </span><span class="COMM">/**
+<span class='line'>166</span>  * @param  {} fila, comprobamos que la fila en la que queremos insertar la reina es valida
+<span class='line'>167</span>  * y no hay otra reian en ese misma fila pero en otra columna que amenace a la reina
+<span class='line'>168</span>  * @description, comprobamos si en la fila que queremos tratar, ya se encuentra una reina
+<span class='line'>169</span>  * insertada o no. Por ello simplemente comprobamos si en tablero.reinasEnFila[fila] hay un true
+<span class='line'>170</span>  * @returns, En caso de encontrar que en esa fila, ya se encuentra una reina insertada, retornamos
+<span class='line'>171</span>  * false ya que la fila queda invalidada. En caso contrario, la fila es valida y retornamos true
+<span class='line'>172</span>  */</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">comprobarFila</span><span class="PUNC">(</span><span class="NAME">fila</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tablero.reinasEnFila</span><span class="PUNC">[</span><span class="NAME">fila</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>177</span> 
+<span class='line'>178</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>180</span> 
+<span class='line'>181</span> </span><span class="COMM">/**
+<span class='line'>182</span>  * @param  {} columna, comprobamos que la columna en la que queremos insertar la reina es valida
+<span class='line'>183</span>  * y no hay otra reian en ese misma columna pero en otra fila que amenace a la reina
+<span class='line'>184</span>  * @description, comprobamos si en la columna que queremos tratar, ya se encuentra una reina
+<span class='line'>185</span>  * insertada o no. Por ello simplemente comprobamos si en tablero.reinasEnColumna[columna] hay un true
+<span class='line'>186</span>  * @returns, En caso de encontrar que en esa columna, ya se encuentra una reina insertada, retornamos
+<span class='line'>187</span>  * false ya que la columna queda invalidada. En caso contrario, la fila es valida y retornamos true
+<span class='line'>188</span>  */</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">comprobarColumna</span><span class="PUNC">(</span><span class="NAME">columna</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tablero.reinasEnColumna</span><span class="PUNC">[</span><span class="NAME">columna</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>193</span> 
+<span class='line'>194</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>196</span> 
+<span class='line'>197</span> </span><span class="COMM">/**
+<span class='line'>198</span>  * @param  {} fila, coordenada respecto al eje X, que queremos comprobar si esta o no en la diagonal
+<span class='line'>199</span>  * de alguna reina para que no la amenace
+<span class='line'>200</span>  * @param  {} columna, coordenada respecto al eje X, que queremos comprobar si esta o no en la diagonal
+<span class='line'>201</span>  * de alguna reina para que no la amenace
+<span class='line'>202</span>  * @returns {boolean} Una vez comprobada la posicion, en caso de que pertenezca a una diagonal, se retornaria
+<span class='line'>203</span>  * que esa posicion no es valida, por lo que se retorna false. En caso de si ser valida, se retorna true
+<span class='line'>204</span>  */</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">comprobarDiagonalNormal</span><span class="PUNC">(</span><span class="NAME">fila</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">  </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">ejeX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fila</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">  </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">ejeY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">  </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">REINA</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> 
+<span class='line'>210</span> </span><span class="WHIT">  </span><span class="COMM">// Recorremos la diagonal del primer cuadrante respecto a la posicion (todo positivo, 1º cuadrante)</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">  </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ejeX</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">ejeY</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">tablero.fila.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tablero.fila</span><span class="PUNC">[</span><span class="NAME">ejeX</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">ejeY</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">REINA</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>215</span> 
+<span class='line'>216</span> </span><span class="WHIT">    </span><span class="NAME">ejeX</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">    </span><span class="NAME">ejeY</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>219</span> 
+<span class='line'>220</span> </span><span class="WHIT">  </span><span class="COMM">// Recorremos la diagonal del segundo cuadrante respecto a la posicion (ejeX negativo y ejeY positivo, 2º cuadrante)</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">  </span><span class="NAME">ejeX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fila</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">  </span><span class="NAME">ejeY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">  </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ejeX</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">ejeY</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tablero.fila</span><span class="PUNC">[</span><span class="NAME">ejeX</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">ejeY</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">REINA</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>227</span> 
+<span class='line'>228</span> </span><span class="WHIT">    </span><span class="NAME">ejeX</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">    </span><span class="NAME">ejeY</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>231</span> 
+<span class='line'>232</span> </span><span class="WHIT">  </span><span class="COMM">// Recorremos la diagonal del tercer cuadrante respecto a la posicion (ejeX negativo y ejeY negativo, 3º cuadrante)</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">  </span><span class="NAME">ejeX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fila</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">  </span><span class="NAME">ejeY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">  </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ejeX</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">tablero.fila.length</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">ejeY</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tablero.fila</span><span class="PUNC">[</span><span class="NAME">ejeX</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">ejeY</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">REINA</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>239</span> 
+<span class='line'>240</span> </span><span class="WHIT">    </span><span class="NAME">ejeX</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">    </span><span class="NAME">ejeY</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>243</span> 
+<span class='line'>244</span> </span><span class="WHIT">  </span><span class="COMM">// Recorremos la diagonal del cuarto cuadrante respecto a la posicion (ejeX positivo y ejeY positivo, 4º cuadrante)</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">  </span><span class="NAME">ejeX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fila</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">  </span><span class="NAME">ejeY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">columna</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">  </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ejeX</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">tablero.fila.length</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">ejeY</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">tablero.fila.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tablero.fila</span><span class="PUNC">[</span><span class="NAME">ejeX</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">ejeY</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">REINA</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>251</span> 
+<span class='line'>252</span> </span><span class="WHIT">    </span><span class="NAME">ejeX</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">    </span><span class="NAME">ejeY</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>255</span> 
+<span class='line'>256</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>258</span> 
+<span class='line'>259</span> </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">tablero</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Object</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="NAME">tablero.size</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="NAME">tablero.fila</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="NAME">tablero.reinasEnFila</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="NAME">tablero.reinasEnColumna</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="NAME">tablero.reinasAlmacenadas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span> 
+<span class='line'>266</span> </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">contador</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="NAME">let</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">process.argv.slice</span><span class="PUNC">(</span><span class="NUMB">2</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>268</span> 
+<span class='line'>269</span> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">  </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">"Debe introducir el numero de reinas con el que se va a trabajar"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">  </span><span class="NAME">process.exit</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">  </span><span class="NAME">constructor</span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">  </span><span class="NAME">imprimirTablero</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">  </span><span class="NAME">insertarReina</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">  </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">"Numero de iteraciones: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">contador</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>280</span> </span></pre></body></html>
