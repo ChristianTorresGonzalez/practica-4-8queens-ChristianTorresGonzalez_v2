@@ -1,0 +1,49 @@
+codecov:
+  token: "e9f9f455-9f3b-49d6-96c6-1e06ba323ab9"
+  bot: "codecov-io"
+  ci:
+    - "travis.org"
+  strict_yaml_branch: "yaml-config"
+  max_report_age: 24
+  disable_default_path_fixes: no
+  require_ci_to_pass: yes
+  notify:
+    after_n_builds: 2
+    wait_for_ci: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+  notify:
+    # notification blocks. See: https://docs.codecov.io/docs/codecovyml-reference#section-coverage-notify
+  status:
+    project:
+      default: # This can be anything, but it needs to exist as the name
+        # basic settings
+        target: auto
+        threshold: 5%
+        base: auto 
+        # advanced settings
+        branches: 
+          - master
+        if_no_uploads: error
+        if_not_found: success
+        if_ci_failed: error
+        only_pulls: false
+        flags: 
+          - frontend
+        paths: 
+          - src/frontend
+parsers:
+  javascript:
+    enable_partials: yes
+  v1:
+    include_full_missed_files: true  # default false
+ gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+
