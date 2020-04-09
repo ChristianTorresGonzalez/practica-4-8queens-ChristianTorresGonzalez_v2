@@ -1,0 +1,28 @@
+{
+  "name": "practica-4-8queens-christiantorresgonzalez",
+  "version": "1.0.0",
+  "description": "Probando repo publico para exposicion pai",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "istanbul cover node_modules/mocha/bin/_mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ULL-ESIT-INF-PAI-2019-2020/practica-4-8queens-ChristianTorresGonzalez.git"
+  },
+  "author": "Christian Torres Gonzalez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ULL-ESIT-INF-PAI-2019-2020/practica-4-8queens-ChristianTorresGonzalez/issues"
+  },
+  "homepage": "https://github.com/ULL-ESIT-INF-PAI-2019-2020/practica-4-8queens-ChristianTorresGonzalez#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "codecov": "^3.6.5",
+    "istanbul": "^0.4.5",
+    "mocha": "^7.1.1"
+  }
+}
