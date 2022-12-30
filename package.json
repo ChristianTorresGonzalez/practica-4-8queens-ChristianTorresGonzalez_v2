@@ -21,7 +21,7 @@
   "homepage": "https://github.com/ULL-ESIT-INF-PAI-2019-2020/practica-4-8queens-ChristianTorresGonzalez#readme",
   "dependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.1.1",
+    "mocha": "^10.2.0",
     "codecov": "^3.6.5",
     "istanbul": "^0.4.5"    
   }
